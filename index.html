@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Profesional | Asiva Nurfarizzi</title>
+    <style>
+        /* CSS Reset & Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --bg-main: #0b0f19;
+            --bg-card: #151f32;
+            --bg-card-hover: #1e2d4a;
+            --accent-blue: #38bdf8;
+            --accent-purple: #c084fc;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --gradient-primary: linear-gradient(135deg, #38bdf8 0%, #c084fc 100%);
+            --glow-blue: rgba(56, 189, 248, 0.2);
+            --glow-purple: rgba(192, 132, 252, 0.2);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-main);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27354f;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #384c6e;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatPlanet {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        @keyframes floatNav1 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(10px, -20px); } }
+        @keyframes floatNav2 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-15px, 15px); } }
+        @keyframes floatNav3 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, 10px); } }
+        @keyframes floatNav4 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-10px, -25px); } }
+        @keyframes floatNav5 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(15px, 20px); } }
+        @keyframes floatNav6 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-20px, -10px); } }
+
+        /* Global Layout */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 100px 0;
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            text-align: center;
+            position: relative;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            padding-top: 40px;
+            overflow: hidden;
+        }
+
+        /* MENU NAVIGASI MELAYANG - PERBAIKAN Z-INDEX AGAR BISA DIPENCET */
+        .floating-nav-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 200; /* Dinaikkan ke 200 supaya di atas semua elemen lain */
+            pointer-events: none; /* Supaya area kosong transparan tidak menghalangi elemen di bawahnya */
+        }
+
+        .floating-nav {
+            list-style: none;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .floating-nav li {
+            position: absolute;
+            pointer-events: auto; /* Mengaktifkan klik kembali khusus untuk tombol menu saja */
+        }
+
+        .floating-nav a {
+            display: flex;
+            background: rgba(21, 31, 50, 0.85); /* Sedikit lebih tebal agar teks jelas */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 12px 24px;
+            border-radius: 30px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(56, 189, 248, 0.1);
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .floating-nav a:hover {
+            color: var(--bg-main);
+            background: var(--gradient-primary);
+            border-color: transparent;
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 15px 30px rgba(56, 189, 248, 0.3);
+        }
+
+        /* Posisi Menu Menyebar Seperti Planet di Area Kanan/Sekitar */
+        .floating-nav li:nth-child(1) { top: 12%; left: 55%; animation: floatNav1 7s ease-in-out infinite; }
+        .floating-nav li:nth-child(2) { top: 25%; left: 78%; animation: floatNav2 6s ease-in-out infinite; }
+        .floating-nav li:nth-child(3) { top: 48%; left: 82%; animation: floatNav3 8s ease-in-out infinite; }
+        .floating-nav li:nth-child(4) { top: 70%; left: 75%; animation: floatNav4 7.5s ease-in-out infinite; }
+        .floating-nav li:nth-child(5) { top: 82%; left: 52%; animation: floatNav5 6.5s ease-in-out infinite; }
+        .floating-nav li:nth-child(6) { top: 45%; left: 50%; animation: floatNav6 7s ease-in-out infinite; }
+
+        @media (max-width: 968px) {
+            .floating-nav-container {
+                position: relative;
+                height: auto;
+                width: auto;
+                padding: 0 24px;
+                margin: 20px auto 40px auto;
+                top: auto; left: auto;
+                z-index: 200;
+                pointer-events: auto;
+            }
+            .floating-nav {
+                height: auto;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 12px;
+                justify-content: center;
+            }
+            .floating-nav li {
+                position: relative !important;
+                top: auto !important; left: auto !important;
+                animation: none !important;
+                pointer-events: auto;
+            }
+            .floating-nav a {
+                font-size: 0.85rem;
+                padding: 8px 16px;
+            }
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 40px;
+            position: relative;
+            z-index: 100;
+        }
+
+        @media (max-width: 968px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+                margin-top: 0;
+            }
+            .hero-visual {
+                order: -1;
+            }
+        }
+
+        .hero-text h2 {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero-text h1 span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-headline {
+            font-size: 1.4rem;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .hero-bio {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 40px;
+            max-width: 520px;
+        }
+
+        @media (max-width: 968px) {
+            .hero-bio {
+                margin: 0 auto 40px auto;
+            }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        @media (max-width: 968px) {
+            .cta-buttons {
+                justify-content: center;
+            }
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--text-main);
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 24px rgba(56, 189, 248, 0.35);
+        }
+
+        .btn-secondary {
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-blue);
+            background: rgba(56, 189, 248, 0.04);
+            transform: translateY(-3px);
+        }
+
+        /* Hero Visual Element */
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .animated-orb {
+            width: 260px;
+            height: 260px;
+            background: var(--gradient-primary);
+            border-radius: 62% 38% 52% 48% / 46% 45% 55% 54%;
+            box-shadow: 0 0 60px rgba(56, 189, 248, 0.25);
+            animation: floatPlanet 6s ease-in-out infinite alternate;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .orb-content {
+            color: var(--bg-main);
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .about-card-visual {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .edu-badge {
+            background: rgba(192, 132, 252, 0.1);
+            color: var(--accent-purple);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 12px;
+            border: 1px solid rgba(192, 132, 252, 0.15);
+        }
+
+        .edu-badge.blue {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-blue);
+            border-color: rgba(56, 189, 248, 0.15);
+        }
+
+        .about-card-visual h3 {
+            font-size: 1.25rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .skill-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s;
+        }
+
+        .skill-box:hover {
+            transform: translateY(-5px);
+            border-color: rgba(56, 189, 248, 0.25);
+            box-shadow: 0 12px 30px var(--glow-blue);
+        }
+
+        .skill-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 22px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .skill-bar-wrapper {
+            margin-bottom: 16px;
+        }
+
+        .skill-bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            color: var(--text-muted);
+        }
+
+        .skill-bar-track {
+            height: 6px;
+            background: #1e293b;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .skill-bar-progress {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 10px;
+        }
+
+        /* Projects Section */
+        .projects-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .card-project {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-project:hover {
+            transform: translateY(-8px);
+            border-color: rgba(192, 132, 252, 0.25);
+            box-shadow: 0 15px 35px var(--glow-purple);
+        }
+
+        .project-thumbnail {
+            height: 180px;
+            background: linear-gradient(45deg, #111a2e, #1e2d4a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .project-info-block {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .project-badges {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge-tech {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--accent-blue);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+        }
+
+        .card-project:hover .badge-tech {
+            background: rgba(56, 189, 248, 0.06);
+        }
+
+        .project-headline-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .project-user-role {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--accent-purple);
+            margin-bottom: 12px;
+        }
+
+        .project-short-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            text-align: justify;
+            line-height: 1.5;
+        }
+
+        /* Timeline / Experience */
+        .timeline-box {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .timeline-box::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: #1e2d4a;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+        }
+
+        .timeline-row {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 40px;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: var(--accent-blue);
+            border: 3px solid var(--bg-main);
+            border-radius: 50%;
+            left: 14px;
+            top: 6px;
+            z-index: 5;
+            transition: background 0.3s;
+        }
+
+        .timeline-row:hover .timeline-marker {
+            background: var(--accent-purple);
+            box-shadow: 0 0 10px var(--accent-purple);
+        }
+
+        .timeline-card-content {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border 0.3s;
+        }
+
+        .timeline-row:hover .timeline-card-content {
+            border-color: rgba(56, 189, 248, 0.2);
+        }
+
+        .timeline-card-date {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 4px;
+        }
+
+        .timeline-card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .timeline-card-company {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        /* Contact Section */
+        .wrapper-contact {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 580px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+        }
+
+        .wrapper-contact p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 30px;
+        }
+
+        .list-links-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .item-link-contact {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.01);
+            border: 1px solid rgba(255,255,255,0.06);
+            width: 100%;
+            max-width: 380px;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .item-link-contact:hover {
+            background: rgba(56, 189, 248, 0.06);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            transform: scale(1.02);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <!-- MENU NAVIGASI MELAYANG TERPISAH (Planet/ Windmill) - FIXED CLICKABLE -->
+        <div class="floating-nav-container">
+            <ul class="floating-nav">
+                <li><a href="#hero">Beranda</a></li>
+                <li><a href="#about">Tentang</a></li>
+                <li><a href="#skills">Keahlian</a></li>
+                <li><a href="#projects">Proyek</a></li>
+                <li><a href="#experience">Pengalaman</a></li>
+                <li><a href="#contact">Kontak</a></li>
+            </ul>
+        </div>
+
+        <div class="container hero-grid">
+            <div class="hero-text">
+                <h2>Selamat Datang</h2>
+                <h1>Halo, Saya <br><span>Asiva Nurfarizzi</span></h1>
+                <div class="hero-headline">Mahasiswa Sistem Informasi</div>
+                <p class="hero-bio">Mahasiswa Sistem Informasi yang antusias dalam merancang antarmuka pengguna yang intuitif dan membangun perangkat lunak yang efisien.</p>
+                <div class="cta-buttons">
+                    <a href="#projects" class="btn btn-primary">Lihat Proyek</a>
+                    <a href="#contact" class="btn btn-secondary">Hubungi Saya</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="animated-orb">
+                    <div class="orb-content">SI × ANIMASI</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" class="container">
+        <h2 class="section-title">Tentang Saya</h2>
+        <div class="about-grid">
+            <div class="about-card-visual">
+                <div class="edu-badge">Universitas Komputama</div>
+                <h3>Sistem Informasi</h3>
+                <div class="edu-badge blue">SMK Komputama Majenang</div>
+                <h3>Lulusan Jurusan Animasi</h3>
+            </div>
+            <div class="about-text">
+                <p>Saya memiliki perpaduan latar belakang yang unik antara kreativitas visual dan logika pemrograman. Saat ini, saya sedang menempuh pendidikan tinggi di <strong>Universitas Komputama</strong> pada program studi <strong>Sistem Informasi</strong>.</p>
+                <p>Sebelumnya, saya telah menyelesaikan pendidikan vokasi di <strong>SMK Komputama Majenang</strong> dengan spesialisasi di <strong>Jurusan Animasi</strong>. Kombinasi interdisipliner yang langka ini memungkinkan saya untuk tidak hanya mengembangkan arsitektur perangkat lunak yang fungsional, tetapi juga memastikan setiap produk digital akhir memiliki desain antarmuka dan pengalaman pengguna (UI/UX) yang luar biasa, hidup, serta interaktif.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="container">
+        <h2 class="section-title">Keahlian</h2>
+        <div class="skills-grid">
+            <!-- Software Dev -->
+            <div class="skill-box">
+                <h3>💻 Rekayasa Perangkat Lunak</h3>
+                <div class="skill-bar-wrapper">
+                    <div class="skill-bar-label"><span>HTML</span><span>90%</span></div>
+                    <div class="skill-bar-track"><div class="skill-bar-progress" style="width: 90%;"></div></div>
+                </div>
+                <div class="skill-bar-wrapper">
+                    <div class="skill-bar-label"><span>PHP</span><span>85%</span></div>
+                    <div class="skill-bar-track"><div class="skill-bar-progress" style="width: 85%;"></div></div>
+                </div>
+                <div class="skill-bar-wrapper">
+                    <div class="skill-bar-label"><span>Laravel</span><span>80%</span></div>
+                    <div class="skill-bar-track"><div class="skill-bar-progress" style="width: 80%;"></div></div>
+                </div>
+            </div>
+
+            <!-- Design & Prototyping -->
+            <div class="skill-box">
+                <h3>🎨 Desain & Prototyping</h3>
+                <div class="skill-bar-wrapper">
+                    <div class="skill-bar-label"><span>Figma</span><span>90%</span></div>
+                    <div class="skill-bar-track"><div class="skill-bar-progress" style="width: 90%;"></div></div>
+                </div>
+                <div class="skill-bar-wrapper">
+                    <div class="skill-bar-label"><span>Canva</span><span>85%</span></div>
+                    <div class="skill-bar-track"><div class="skill-bar-progress" style="width: 85%;"></div></div>
+                </div>
+                <div class="skill-bar-wrapper">
+                    <div class="skill-bar-label"><span>Toonboom Harmony</span><span>80%</span></div>
+                    <div class="skill-bar-track"><div class="skill-bar-progress" style="width: 80%;"></div></div>
+                </div>
+                <div class="skill-bar-wrapper">
+                    <div class="skill-bar-label"><span>Blender</span><span>70%</span></div>
+                    <div class="skill-bar-track"><div class="skill-bar-progress" style="width: 70%;"></div></div>
+                </div>
+            </div>
+
+            <!-- Soft Skills -->
+            <div class="skill-box">
+                <h3>🚀 Kompetensi Manajerial</h3>
+                <div class="skill-bar-wrapper">
+                    <div class="skill-bar-label"><span>Kepemimpinan</span><span>90%</span></div>
+                    <div class="skill-bar-track"><div class="skill-bar-progress" style="width: 90%;"></div></div>
+                </div>
+                <div class="skill-bar-wrapper">
+                    <div class="skill-bar-label"><span>Manajemen Tim</span><span>85%</span></div>
+                    <div class="skill-bar-track"><div class="skill-bar-progress" style="width: 85%;"></div></div>
+                </div>
+                <div class="skill-bar-wrapper">
+                    <div class="skill-bar-label"><span>Pemecahan Masalah</span><span>85%</span></div>
+                    <div class="skill-bar-track"><div class="skill-bar-progress" style="width: 85%;"></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="container">
+        <h2 class="section-title">Etalase Proyek</h2>
+        <div class="projects-layout">
+            <!-- Project 1 -->
+            <div class="card-project">
+                <div class="project-thumbnail">🎓</div>
+                <div class="project-info-block">
+                    <div class="project-badges">
+                        <span class="badge-tech">PHP</span>
+                        <span class="badge-tech">Laravel</span>
+                        <span class="badge-tech">Sistem Web</span>
+                    </div>
+                    <div class="project-headline-title">Aplikasi Sistem Academic Universitas</div>
+                    <div class="project-user-role">Peran: Pemimpin Proyek (Project Manager)</div>
+                    <div class="project-short-desc">Sistem informasi manajemen berbasis web yang dirancang untuk mendigitalisasi sekaligus mengintegrasikan proses administrasi kampus. Mempermudah tata kelola data mahasiswa secara terpusat, penjadwalan kuliah, hingga transparansi penilaian yang efisien bagi staf serta civitas akademika.</div>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="card-project">
+                <div class="project-thumbnail">🏠</div>
+                <div class="project-info-block">
+                    <div class="project-badges">
+                        <span class="badge-tech">Figma</span>
+                        <span class="badge-tech">UI/UX Design</span>
+                        <span class="badge-tech">Prototyping</span>
+                    </div>
+                    <div class="project-headline-title">Prototipe UI/UX: Aplikasi Manajemen Keluarga</div>
+                    <div class="project-user-role">Peran: UI/UX Designer</div>
+                    <div class="project-short-desc">Eksplorasi perancangan antarmuka dan pengalaman pengguna untuk aplikasi koordinasi aktivitas domestik. Berfokus pada kemudahan manajemen jadwal bersama, delegasi tugas harian rumah tangga, serta pencatatan agenda penting keluarga dalam satu ruang digital terpadu.</div>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="card-project">
+                <div class="project-thumbnail">🎬</div>
+                <div class="project-info-block">
+                    <div class="project-badges">
+                        <span class="badge-tech">Toonboom Harmony</span>
+                        <span class="badge-tech">Animasi 2D</span>
+                        <span class="badge-tech">Produksi TV</span>
+                    </div>
+                    <div class="project-headline-title">Animasi 2D: Serial Animasi Malaysia</div>
+                    <div class="project-user-role">Peran: 2D Animator</div>
+                    <div class="project-short-desc">Kontribusi profesional dalam tim animator internasional untuk memproduksi aset gerak pada serial animasi 2D komersial yang disiarkan di stasiun televisi Malaysia. Bertanggung jawab mengolah kehalusan animasi karakter sesuai dengan standar ketat industri penyiaran.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="container">
+        <h2 class="section-title">Pengalaman & Kepemimpinan</h2>
+        <div class="timeline-box">
+            <div class="timeline-row">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card-content">
+                    <div class="timeline-card-date">Periode Vokasi</div>
+                    <div class="timeline-card-title">Ketua OSIS</div>
+                    <div class="timeline-card-company">SMK Komputama Majenang</div>
+                    <p style="color:var(--text-muted); font-size:0.92rem;">Mengemban amanah memimpin organisasi tertinggi intra sekolah, merancang program kerja taktis, serta mengasah keterampilan manajemen tim, komunikasi publik, dan penyelesaian konflik organisasi.</p>
+                </div>
+            </div>
+            <div class="timeline-row">
+                <div class="timeline-marker"></div>
+                <div class="timeline-card-content">
+                    <div class="timeline-card-date">Proyek Pengembangan Kampus</div>
+                    <div class="timeline-card-title">Project Manager / Pemimpin Tim</div>
+                    <div class="timeline-card-company">Universitas Komputama</div>
+                    <p style="color:var(--text-muted); font-size:0.92rem;">Bertanggung jawab penuh mengoordinasikan pembagian kerja rekayasa perangkat lunak dan desain antarmuka, memastikan sinergi tim berjalan lancar demi mencapai target rilis aplikasi tepat waktu.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container">
+        <h2 class="section-title">Hubungi Saya</h2>
+        <div class="wrapper-contact">
+            <p>Saya selalu terbuka untuk mendiskusikan peluang kolaborasi proyek, program magang, maupun tawaran rekayasa perangkat lunak profesional lainnya. Mari terhubung!</p>
+            <div class="list-links-contact">
+                <a href="mailto:asivanurfarizziwork@gmail.com?subject=Ketertarikan%20Kolaborasi%20%7C%20Asiva%20Nurfarizzi" class="item-link-contact">
+                    📧 asivanurfarizziwork@gmail.com
+                </a>
+                <a href="https://www.linkedin.com/in/asiva-nurfarizzi-a560273aa?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="item-link-contact">
+                    💼 LinkedIn Profil Resmi
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Asiva Nurfarizzi. Seluruh Hak Cipta Dilindungi. Dibuat murni menggunakan HTML & Animasi CSS Dinamis.</p>
+    </footer>
+
+</body>
+</html>
